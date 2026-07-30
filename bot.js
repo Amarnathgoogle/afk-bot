@@ -14,18 +14,17 @@ app.listen(PORT, () => {
 });
 
 // --- 2. CONFIGURATION ---
-// Replace with your exact Aternos Server IP & Port
-const SERVER_IP = 'oneblock-Kifb.aternos.me';
-const SERVER_PORT = 24811; // Default Bedrock Port
-const BOT_NAME = 'AFK_Bot_247';
+const SERVER_IP = 'oneblock-Kifb.aternos.me'; // Quotes around string
+const SERVER_PORT = 24811;                    // Your Aternos Bedrock port
+const BOT_NAME = 'afkbot';                   // Your desired bot username
 
 function connectBot() {
   console.log('Connecting bot to server...');
 
   const client = bedrock.createClient({
-    host: oneblock-Kifb.aternos.me,
-    port: 24811,
-    username: afkbot,
+    host: SERVER_IP,
+    port: SERVER_PORT,
+    username: BOT_NAME,
     offline: true // Set to true if your Aternos server is in Cracked mode
   });
 
