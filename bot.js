@@ -1,7 +1,7 @@
 const bedrock = require('bedrock-protocol');
 const express = require('express');
 
-// --- 1. START A WEBSERVER FOR RENDER HEALTH CHECKS ---
+// --- 1. WEBSERVER FOR RENDER HEALTH CHECKS ---
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -14,9 +14,9 @@ app.listen(PORT, () => {
 });
 
 // --- 2. CONFIGURATION ---
-const SERVER_IP = 'oneblock-Kifb.aternos.me'; // Quotes around string
-const SERVER_PORT = 24811;                    // Your Aternos Bedrock port
-const BOT_NAME = 'afkbot';                   // Your desired bot username
+const SERVER_IP = 'oneblock-Kifb.aternos.me';
+const SERVER_PORT = 24811;
+const BOT_NAME = 'afkbot';
 
 function connectBot() {
   console.log('Connecting bot to server...');
@@ -25,13 +25,15 @@ function connectBot() {
     host: SERVER_IP,
     port: SERVER_PORT,
     username: BOT_NAME,
-    offline: true // Set to true if your Aternos server is in Cracked mode
+    offline: true,           // Bypasses Xbox Live login
+    version: '1.26.30',      // Matches your Aternos server version
+    skipPing: true           // Directly connects to prevent disconnects
   });
 
   client.on('join', () => {
     console.log(`Bot ${BOT_NAME} successfully joined the server!`);
 
-    // Keep-alive chat loop every 60 seconds
+    // Anti-AFK Chat Keep-alive every 60 seconds
     setInterval(() => {
       try {
         client.queue('text', {
@@ -54,7 +56,7 @@ function connectBot() {
   });
 
   client.on('error', (err) => {
-    console.error('Bot encountered error:', err.message);
+    console.error('Bot error:', err.message);
   });
 
   client.on('close', () => {
@@ -63,7 +65,7 @@ function connectBot() {
   });
 }
 
-// Auto-reconnect handler if server restarts or bot drops
+// Auto-reconnect handler
 let isReconnecting = false;
 function reconnect() {
   if (isReconnecting) return;
@@ -75,5 +77,5 @@ function reconnect() {
   }, 30000);
 }
 
-// Start the bot connection
+// Start the bot
 connectBot();
